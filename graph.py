@@ -19,7 +19,7 @@ def plot_pem(filename):
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig("figures/" + filename[:-5] + ".png")
+    plt.savefig("figures/" + filename[5:-5] + ".png")
 
 # plot input output flow temp
 def plot_flowports(filename):
@@ -36,15 +36,15 @@ def plot_flowports(filename):
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig("figures/" + filename[:-5] + ".png")
+    plt.savefig("figures/" + filename[5:-5] + ".png")
 
-plot_pem("19.8W_PEM.xlsx")
-plot_pem("97.5W_PEM.xlsx")
-plot_pem("148.66W_PEM.xlsx")
-plot_pem("198.2W_PEM.xlsx")
+plot_pem("data/19.8W_PEM.xlsx")
+plot_pem("data/97.5W_PEM.xlsx")
+plot_pem("data/148.66W_PEM.xlsx")
+plot_pem("data/198.2W_PEM.xlsx")
 
-plot_flowports("19.8W_IO.xlsx")
-plot_flowports("97.5W_IO.xlsx")
-plot_flowports("148.66W_IO.xlsx")
-plot_flowports("198.2W_IO.xlsx")
+plot_flowports("data/19.8W_IO.xlsx")
+plot_flowports("data/97.5W_IO.xlsx")
+plot_flowports("data/148.66W_IO.xlsx")
+plot_flowports("data/198.2W_IO.xlsx")
 plt.show()
