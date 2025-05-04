@@ -86,6 +86,8 @@ def plot_avg_temp_by_power(data_dir):
 
     orientation = "Horizontal" if "horizontal" in data_dir.lower() else "Vertical"
 
+    plt.autoscale(enable=True, axis='x', tight=True)
+    plt.xlim(left=0)
     plt.title(f"Average Temperature of PEM Over Time\nOrientation: {orientation}")
     plt.xlabel("Time [s]")
     plt.ylabel("Average Temperature [˚C]")
@@ -135,6 +137,8 @@ def plot_avg_temp_by_power_all(data_dir):
             label = f"{power} W ({orientation.capitalize()})"
             plt.plot(time, avg_temp, line_styles[orientation], label=label)
 
+    plt.autoscale(enable=True, axis='x', tight=True)
+    plt.xlim(left=0)
     plt.title("Average Temperature of PEM Over Time\nComparing Orientations")
     plt.xlabel("Time [s]")
     plt.ylabel("Average Temperature [˚C]")
