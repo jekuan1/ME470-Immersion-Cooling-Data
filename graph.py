@@ -20,10 +20,12 @@ def plot_pem(filename):
     output_dir = f"figures/{orientation}"
     os.makedirs(output_dir, exist_ok=True)
 
-    plt.title(f"Temperature of Power Electronics Module at Different Locations\nP = {wattage}, Orientation: {orientation.capitalize()}")
-    plt.ylabel("Temperature [˚C]")
-    plt.xlabel("Time [s]")
-    plt.legend()
+    plt.title(f"Temperature of Power Electronics Module at Different Locations\nP = {wattage}, Orientation: {orientation.capitalize()}", fontsize="xx-large")
+    plt.ylabel("Temperature [˚C]", fontsize="xx-large")
+    plt.xlabel("Time [s]", fontsize="xx-large")
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+    plt.legend(title="Thermocouples", loc="lower right", ncol=2, title_fontsize="x-large", fontsize=12)
     plt.grid(True)
     plt.tight_layout()
 
@@ -46,10 +48,12 @@ def plot_flowports(filename):
     output_dir = f"figures/{orientation}"
     os.makedirs(output_dir, exist_ok=True)
 
-    plt.title(f"Temperature of Flow Inlet and Outlet\nP = {wattage}, Orientation: {orientation.capitalize()}")
-    plt.ylabel("Temperature [˚C]")
-    plt.xlabel("Time [s]")
-    plt.legend()
+    plt.title(f"Temperature of Flow Inlet and Outlet\nP = {wattage}, Orientation: {orientation.capitalize()}", fontsize="xx-large")
+    plt.ylabel("Temperature [˚C]", fontsize="xx-large")
+    plt.xlabel("Time [s]", fontsize="xx-large")
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+    plt.legend(title="Thermocouples", loc="lower right", title_fontsize="x-large", fontsize=12)
     plt.grid(True)
     plt.tight_layout()
 
@@ -82,16 +86,38 @@ def plot_avg_temp_by_power(data_dir):
         time = df.iloc[:, 0]
         temps = df.iloc[:, 1:]
         avg_temp = temps.mean(axis=1)
-        plt.plot(time, avg_temp, label=f"{power} W")
 
+        # Plot main line
+        main_line, = plt.plot(time, avg_temp, label=f"{power} W")
+
+        # Use the same color for additional lines
+        color = main_line.get_color()
+
+        # Mask for time > 200
+        mask_after_200 = time > 200
+        if mask_after_200.any():
+            avg_after_200 = avg_temp[mask_after_200].mean()
+            plt.hlines(avg_after_200, xmin=time.iloc[0], xmax=time.iloc[-1],
+                    colors=color, linestyles='--', 
+                    label=f"Avg: {avg_after_200:.2f}°C")
+
+        # Max temperature line
+        max_temp = avg_temp.max()
+        plt.hlines(max_temp, xmin=time.iloc[0], xmax=time.iloc[-1],
+                colors=color, linestyles=':', 
+                label=f"Max: {max_temp:.2f}°C")
+        
     orientation = "Horizontal" if "horizontal" in data_dir.lower() else "Vertical"
 
     plt.autoscale(enable=True, axis='x', tight=True)
     plt.xlim(left=0)
-    plt.title(f"Average Temperature of PEM Over Time\nOrientation: {orientation}")
-    plt.xlabel("Time [s]")
-    plt.ylabel("Average Temperature [˚C]")
-    plt.legend(title="Power Level")
+    plt.ylim(20, 40)
+    plt.title(f"Average Temperature of PEM Over Time\nOrientation: {orientation}", fontsize="xx-large")
+    plt.xlabel("Time [s]", fontsize="xx-large")
+    plt.ylabel("Average Temperature [˚C]", fontsize="xx-large")
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+    plt.legend(title="Power Level", fontsize=12, loc='upper right', ncol=4, title_fontsize="x-large")
     plt.grid(True)
     plt.tight_layout()
 
@@ -139,7 +165,7 @@ def plot_avg_temp_by_power_all(data_dir):
 
     plt.autoscale(enable=True, axis='x', tight=True)
     plt.xlim(left=0)
-    plt.title("Average Temperature of PEM Over Time\nComparing Orientations")
+    plt.title("Average Temperature of PEM Over Time\nComparing Orientations", fontsize="xx-large")
     plt.xlabel("Time [s]")
     plt.ylabel("Average Temperature [˚C]")
     plt.legend(title="Power Level & Orientation")
